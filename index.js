@@ -47,10 +47,41 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/spot/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await spotCollection.findOne(query);
+      res.send(result);
+    });
+
     app.post("/spot", async (req, res) => {
       const newSpot = req.body;
       console.log(newSpot);
       const result = await spotCollection.insertOne(newSpot);
+      res.send(result);
+    });
+
+    app.put("/spot/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedSpot = req.body;
+      const spot = {
+        $set: {
+          image: updatedSpot.image,
+          tourists_spot_name: updatedSpot.tourists_spot_name,
+          country_Name: updatedSpot.country_Name,
+          location: updatedSpot.location,
+          short_description: updatedSpot.short_description,
+          average_cost: updatedSpot.average_cost,
+          seasonality: updatedSpot.seasonality,
+          travel_time: updatedSpot.travel_time,
+          total_visitors_per_year: updatedSpot.total_visitors_per_year,
+          user_email: updatedSpot.user_email,
+          user_name: updatedSpot.user_name,
+        },
+      };
+      const result = await spotCollection.updateOne(filter, spot, options);
       res.send(result);
     });
 
