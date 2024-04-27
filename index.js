@@ -40,6 +40,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/spot/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { user_email: new ObjectId(email) };
+      const result = await spotCollection.findOne(query);
+      res.send(result);
+    });
+
     app.post("/spot", async (req, res) => {
       const newSpot = req.body;
       console.log(newSpot);
