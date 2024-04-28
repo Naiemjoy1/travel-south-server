@@ -54,6 +54,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/spot/:country", async (req, res) => {
+      const country = req.params.country;
+      const query = { country_Name: country }; // Assuming the field storing country name is named 'country_Name'
+      const result = await spotCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.post("/spot", async (req, res) => {
       const newSpot = req.body;
       console.log(newSpot);
