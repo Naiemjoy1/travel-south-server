@@ -55,11 +55,24 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/spot/:country", async (req, res) => {
-      const country = req.params.country;
-      const query = { country_Name: country };
-      const result = await spotCollection.find(query).toArray();
-      res.send(result);
+    // app.get("/spot/:country", async (req, res) => {
+    //   const country = req.params.country;
+    //   const query = { country_Name: country };
+    //   const result = await spotCollection.find(query).toArray();
+    //   res.send(result);
+    // });
+
+    app.get("/spot/country/:countryName", async (req, res) => {
+      try {
+        const countryName = req.params.countryName;
+        const results = await spotCollection
+          .find({ country_Name: countryName })
+          .toArray();
+        res.json(results);
+      } catch (error) {
+        console.error("Error fetching data by country name:", error);
+        res.status(500).send("Internal server error");
+      }
     });
 
     app.post("/spot", async (req, res) => {
