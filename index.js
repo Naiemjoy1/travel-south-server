@@ -40,12 +40,13 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/spot/:email", async (req, res) => {
-      const email = req.params.email;
-      const query = { user_email: new ObjectId(email) };
-      const result = await spotCollection.findOne(query);
-      res.send(result);
-    });
+    // app.get("/spot/:email", async (req, res) => {
+    //   console.log(req.params.email);
+    //   const result = await spotCollection
+    //     .find({ user_email: req.params.email })
+    //     .toArray();
+    //   res.send(result);
+    // });
 
     app.get("/spot/:id", async (req, res) => {
       const id = req.params.id;
@@ -56,7 +57,7 @@ async function run() {
 
     app.get("/spot/:country", async (req, res) => {
       const country = req.params.country;
-      const query = { country_Name: country }; // Assuming the field storing country name is named 'country_Name'
+      const query = { country_Name: country };
       const result = await spotCollection.find(query).toArray();
       res.send(result);
     });
